@@ -6,7 +6,12 @@ import {
   insertWorkoutPlanSchema,
   insertCalorieEntrySchema,
   insertWorkoutAlarmSchema,
-  insertProgressEntrySchema
+  insertProgressEntrySchema,
+  insertDailyCheckinSchema,
+  insertAchievementSchema,
+  insertPersonalRecordSchema,
+  insertMealPlanSchema,
+  insertChatMessageSchema
 } from "@shared/schema";
 import { generateWorkoutPlan, generateMealPlan, analyzeFoodCalories } from "./services/openai";
 
@@ -205,6 +210,237 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "No progress data found" });
       }
       res.json(entry);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Daily Check-in routes
+  app.post("/api/checkins", async (req, res) => {
+    try {
+      const checkinData = insertDailyCheckinSchema.parse(req.body);
+      
+      // Calculate readiness score (0-100) based on all factors
+      const readinessScore = Math.round(
+        ((checkinData.sleepQuality + checkinData.energyLevel + (11 - checkinData.soreness) + 
+          checkinData.mood + (11 - checkinData.stress)) / 50) * 100
+      );
+      
+      const checkin = await storage.createDailyCheckin({
+        ...checkinData,
+        readinessScore
+      });
+      res.json(checkin);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/checkins/today/:userId", async (req, res) => {
+    try {
+      const checkin = await storage.getTodayCheckinByUserId(req.params.userId);
+      if (!checkin) {
+        return res.status(404).json({ message: "No check-in found for today" });
+      }
+      res.json(checkin);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/checkins/user/:userId", async (req, res) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+      const checkins = await storage.getCheckinsByUserId(req.params.userId, limit);
+      res.json(checkins);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Enhanced macro tracking routes
+  app.get("/api/macros/today/:userId", async (req, res) => {
+    try {
+      const macros = await storage.getTodayMacrosByUserId(req.params.userId);
+      res.json(macros);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Achievement routes
+  app.post("/api/achievements", async (req, res) => {
+    try {
+      const achievementData = insertAchievementSchema.parse(req.body);
+      const achievement = await storage.createAchievement(achievementData);
+      res.json(achievement);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/achievements/user/:userId", async (req, res) => {
+    try {
+      const achievements = await storage.getAchievementsByUserId(req.params.userId);
+      res.json(achievements);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Personal Record routes
+  app.post("/api/personal-records", async (req, res) => {
+    try {
+      const recordData = insertPersonalRecordSchema.parse(req.body);
+      const record = await storage.createPersonalRecord(recordData);
+      res.json(record);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/personal-records/user/:userId", async (req, res) => {
+    try {
+      const records = await storage.getPersonalRecordsByUserId(req.params.userId);
+      res.json(records);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Enhanced Meal Plan routes
+  app.post("/api/meal-plans", async (req, res) => {
+    try {
+      const planData = insertMealPlanSchema.parse(req.body);
+      const plan = await storage.createMealPlan(planData);
+      res.json(plan);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/meal-plans/user/:userId", async (req, res) => {
+    try {
+      const plans = await storage.getMealPlansByUserId(req.params.userId);
+      res.json(plans);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/meal-plans/latest/:userId", async (req, res) => {
+    try {
+      const plan = await storage.getLatestMealPlanByUserId(req.params.userId);
+      if (!plan) {
+        return res.status(404).json({ message: "No meal plan found" });
+      }
+      res.json(plan);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Enhanced Meal Plan Generation with dietary preferences
+  app.post("/api/meal-plans/generate", async (req, res) => {
+    try {
+      const { userId, dietType, allergies, dislikedFoods, ...params } = req.body;
+      
+      // Generate AI meal plan with preferences
+      const aiPlan = await generateMealPlan({
+        ...params,
+        dietType,
+        allergies,
+        dislikedFoods
+      });
+      
+      // Save to storage
+      const mealPlan = await storage.createMealPlan({
+        userId,
+        name: `Meal Plan - ${new Date().toLocaleDateString()}`,
+        plan: aiPlan,
+        targetCalories: params.calorieTarget,
+        targetProtein: params.proteinTarget,
+        targetCarbs: params.carbTarget,
+        targetFat: params.fatTarget,
+        dietType,
+        duration: "weekly"
+      });
+      
+      res.json(mealPlan);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // AI Coach Chat routes
+  app.post("/api/chat", async (req, res) => {
+    try {
+      const messageData = insertChatMessageSchema.parse(req.body);
+      const message = await storage.createChatMessage(messageData);
+      res.json(message);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/chat/user/:userId", async (req, res) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 50;
+      const messages = await storage.getChatMessagesByUserId(req.params.userId, limit);
+      res.json(messages);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Adaptive Workout Plan Adjustment
+  app.post("/api/workout-plans/adjust", async (req, res) => {
+    try {
+      const { userId, readinessScore, currentPlan } = req.body;
+      
+      let adjustedPlan = currentPlan;
+      
+      // Adjust workout intensity based on readiness
+      if (readinessScore < 60) {
+        // Low readiness - reduce intensity
+        adjustedPlan = {
+          ...currentPlan,
+          weeklySchedule: currentPlan.weeklySchedule?.map((day: any) => ({
+            ...day,
+            intensity: "Low",
+            duration: Math.max(20, day.duration * 0.7),
+            exercises: day.exercises?.map((ex: any) => ({
+              ...ex,
+              sets: Math.max(1, ex.sets - 1),
+              reps: Math.max(5, ex.reps - 2)
+            }))
+          }))
+        };
+      } else if (readinessScore > 85) {
+        // High readiness - can handle more intensity
+        adjustedPlan = {
+          ...currentPlan,
+          weeklySchedule: currentPlan.weeklySchedule?.map((day: any) => ({
+            ...day,
+            intensity: "High",
+            duration: Math.min(90, day.duration * 1.2),
+            exercises: day.exercises?.map((ex: any) => ({
+              ...ex,
+              sets: ex.sets + 1,
+              reps: ex.reps + 2
+            }))
+          }))
+        };
+      }
+
+      // Update the plan in storage
+      const workoutPlan = await storage.getWorkoutPlanByUserId(userId);
+      if (workoutPlan) {
+        const updated = await storage.updateWorkoutPlan(workoutPlan.id, { plan: adjustedPlan });
+        res.json(updated);
+      } else {
+        res.status(404).json({ message: "No workout plan found" });
+      }
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }

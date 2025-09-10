@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Dumbbell, TrendingUp, Trophy, Play, Utensils, AlarmClock, RotateCcw, Heart, Zap, Apple, Coffee } from "lucide-react";
+import DailyCheckin from "./daily-checkin";
 
 interface DashboardProps {
   user: any;
@@ -21,8 +22,18 @@ export default function Dashboard({ user }: DashboardProps) {
     enabled: !!user.id,
   });
 
+  const { data: todayMacros = { protein: 0, carbs: 0, fat: 0 } } = useQuery<{ protein: number; carbs: number; fat: number }>({
+    queryKey: ["/api/macros/today", user.id],
+    enabled: !!user.id,
+  });
+
   const { data: latestProgress } = useQuery<{ weight?: number; workoutsCompleted?: number } | undefined>({
     queryKey: ["/api/progress/latest", user.id],
+    enabled: !!user.id,
+  });
+
+  const { data: userAchievements = [] } = useQuery<any[]>({
+    queryKey: ["/api/achievements/user", user.id],
     enabled: !!user.id,
   });
 
@@ -109,6 +120,11 @@ export default function Dashboard({ user }: DashboardProps) {
       {/* Dynamic Animated Background */}
       <div className={getBackgroundClasses()}>
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent gradient-animation"></div>
+      </div>
+
+      {/* Daily Check-in Component */}
+      <div className="relative z-10 mb-6">
+        <DailyCheckin user={user} />
       </div>
 
       {/* Floating Particle Animation */}
@@ -251,8 +267,10 @@ export default function Dashboard({ user }: DashboardProps) {
       <div className="grid md:grid-cols-3 gap-8">
         <Card className="text-center">
           <CardContent className="p-8">
-            <h3 className="text-lg font-semibold text-foreground mb-6">Today's Goal Progress</h3>
-            <div className="relative inline-block mb-4">
+            <h3 className="text-lg font-semibold text-foreground mb-6">Today's Nutrition Progress</h3>
+            
+            {/* Calorie Progress Ring */}
+            <div className="relative inline-block mb-6">
               <div className="relative w-32 h-32">
                 <svg className="w-32 h-32 progress-ring" viewBox="0 0 120 120">
                   <circle 
@@ -280,11 +298,63 @@ export default function Dashboard({ user }: DashboardProps) {
                     <div className="text-2xl font-bold text-foreground" data-testid="text-progress-percentage">
                       {Math.round(calorieProgress)}%
                     </div>
-                    <div className="text-sm text-muted-foreground">Complete</div>
+                    <div className="text-sm text-muted-foreground">Calories</div>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Macro Progress Bars */}
+            <div className="space-y-4 mb-6">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <span className="text-sm font-medium">Protein</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    {todayMacros.protein}g / {user.proteinTarget || 140}g
+                  </span>
+                </div>
+                <Progress 
+                  value={Math.min((todayMacros.protein / (user.proteinTarget || 140)) * 100, 100)} 
+                  className="h-2"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <span className="text-sm font-medium">Carbs</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    {todayMacros.carbs}g / {user.carbTarget || 200}g
+                  </span>
+                </div>
+                <Progress 
+                  value={Math.min((todayMacros.carbs / (user.carbTarget || 200)) * 100, 100)} 
+                  className="h-2"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <span className="text-sm font-medium">Fat</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    {todayMacros.fat}g / {user.fatTarget || 65}g
+                  </span>
+                </div>
+                <Progress 
+                  value={Math.min((todayMacros.fat / (user.fatTarget || 65)) * 100, 100)} 
+                  className="h-2"
+                />
+              </div>
+            </div>
+
             {calorieProgress > 90 && (
               <Badge variant="destructive" className="mb-2">
                 Approaching calorie limit!
