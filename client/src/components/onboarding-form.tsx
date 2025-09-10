@@ -98,25 +98,38 @@ export default function OnboardingForm({ onUserCreated }: OnboardingFormProps) {
     return () => clearTimeout(timer);
   }, [currentStep, form.watch()]);
 
-  const handleSkipOnboarding = () => {
-    // Create minimal user profile for skipping
-    const minimalUser = {
-      username: `guest_${Date.now()}`,
-      password: "temp",
-      age: 25,
-      weight: 70,
-      height: 170,
-      fitnessLevel: "Beginner",
-      goals: ["General Fitness"],
-      workoutDays: 3,
-      calorieTarget: 2000,
-    };
-    
-    toast({
-      title: "Skipped to Demo Mode! 🎯",
-      description: "You can always update your profile later in settings.",
-    });
-    onUserCreated(minimalUser);
+  const handleSkipOnboarding = async () => {
+    try {
+      // Create minimal user profile for skipping
+      const minimalUserData = {
+        username: `guest_${Date.now()}`,
+        password: "demo_password",
+        age: 25,
+        weight: 70,
+        height: 170,
+        fitnessLevel: "Beginner",
+        goals: ["General Fitness"],
+        workoutDays: 3,
+        calorieTarget: 2000,
+      };
+      
+      // Actually create the user in the backend
+      const response = await apiRequest("POST", "/api/users", minimalUserData);
+      const createdUser = await response.json();
+      
+      toast({
+        title: "Skipped to Demo Mode! 🎯",
+        description: "You can always update your profile later in settings.",
+      });
+      onUserCreated(createdUser);
+    } catch (error) {
+      console.error("Error creating demo user:", error);
+      toast({
+        title: "Error",
+        description: "Failed to create demo profile. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

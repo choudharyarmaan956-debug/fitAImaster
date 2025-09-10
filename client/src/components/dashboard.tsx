@@ -1,15 +1,21 @@
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Flame, Dumbbell, TrendingUp, Trophy, Play, Utensils, AlarmClock, RotateCcw } from "lucide-react";
+import { Flame, Dumbbell, TrendingUp, Trophy, Play, Utensils, AlarmClock, RotateCcw, Heart, Zap, Apple, Coffee } from "lucide-react";
 
 interface DashboardProps {
   user: any;
 }
 
 export default function Dashboard({ user }: DashboardProps) {
+  const [currentQuote, setCurrentQuote] = useState(0);
+  const [backgroundTheme, setBackgroundTheme] = useState('morning');
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [particles, setParticles] = useState<Array<{id: number, icon: string, x: number, y: number, delay: number}>>([]);
+
   const { data: todayCalories = { totalCalories: 0 } } = useQuery<{ totalCalories: number }>({
     queryKey: ["/api/calories/today", user.id],
     enabled: !!user.id,
@@ -24,10 +30,154 @@ export default function Dashboard({ user }: DashboardProps) {
   const caloriesRemaining = (user.calorieTarget || 2000) - caloriesConsumed;
   const calorieProgress = Math.min((caloriesConsumed / (user.calorieTarget || 2000)) * 100, 100);
 
+  // Gen Z Fitness Humor Quotes
+  const genZQuotes = [
+    { text: "Accidentally did a burpee. Please send help 😅", emoji: "🆘" },
+    { text: "My relationship status? In a committed relationship with my gains", emoji: "💪" },
+    { text: "Gym hair, don't care 💪", emoji: "💇‍♀️" },
+    { text: "Leg day: When walking upstairs becomes a life achievement", emoji: "🏆" },
+    { text: "Plot twist: The gym membership was the friends we made along the way", emoji: "🤝" },
+    { text: "Rest day? More like 'I'm secretly planning my comeback' day", emoji: "🧠" },
+    { text: "Netflix called, but your dumbbells are louder", emoji: "📺" },
+    { text: "You're on fire! 🔥 (Metaphorically, please stay hydrated)", emoji: "💧" },
+    { text: "Even superheroes have off days... but you're not having one today!", emoji: "🦸‍♀️" },
+    { text: "Main character energy activated ✨", emoji: "⭐" }
+  ];
+
+  // Time-based background themes
+  const getTimeBasedTheme = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return 'morning'; // Morning yoga
+    if (hour >= 12 && hour < 17) return 'afternoon'; // Afternoon HIIT  
+    return 'evening'; // Evening stretching
+  };
+
+  // Generate floating particles
+  useEffect(() => {
+    const icons = ['💪', '🏋️', '🥗', '💧', '⚡', '🔥', '🏃‍♀️', '🧘‍♀️'];
+    const newParticles = Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      icon: icons[Math.floor(Math.random() * icons.length)],
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      delay: Math.random() * 10
+    }));
+    setParticles(newParticles);
+  }, []);
+
+  // Rotate quotes every 8 seconds
+  useEffect(() => {
+    const quoteInterval = setInterval(() => {
+      setCurrentQuote((prev) => (prev + 1) % genZQuotes.length);
+    }, 8000);
+    return () => clearInterval(quoteInterval);
+  }, [genZQuotes.length]);
+
+  // Update background theme based on time
+  useEffect(() => {
+    setBackgroundTheme(getTimeBasedTheme());
+    const themeInterval = setInterval(() => {
+      setBackgroundTheme(getTimeBasedTheme());
+    }, 60000); // Check every minute
+    return () => clearInterval(themeInterval);
+  }, []);
+
+  // Trigger celebration for achievements
+  useEffect(() => {
+    if (calorieProgress >= 100 || (latestProgress?.workoutsCompleted && latestProgress.workoutsCompleted >= 5)) {
+      setShowCelebration(true);
+      setTimeout(() => setShowCelebration(false), 3000);
+    }
+  }, [calorieProgress, latestProgress?.workoutsCompleted]);
+
+  const getBackgroundClasses = () => {
+    const baseClasses = "fixed inset-0 transition-all duration-1000 ease-in-out opacity-30";
+    switch (backgroundTheme) {
+      case 'morning':
+        return `${baseClasses} bg-gradient-to-br from-orange-200 via-yellow-200 to-pink-200 dark:from-orange-900/30 dark:via-yellow-900/30 dark:to-pink-900/30`;
+      case 'afternoon':
+        return `${baseClasses} bg-gradient-to-br from-blue-200 via-purple-200 to-red-200 dark:from-blue-900/30 dark:via-purple-900/30 dark:to-red-900/30`;
+      case 'evening':
+        return `${baseClasses} bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30`;
+      default:
+        return `${baseClasses} bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-800/30 dark:to-slate-900/30`;
+    }
+  };
+
   return (
-    <section className="mb-12">
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 slide-up">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Dynamic Animated Background */}
+      <div className={getBackgroundClasses()}>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent gradient-animation"></div>
+      </div>
+
+      {/* Floating Particle Animation */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {particles.map((particle) => (
+          <div
+            key={particle.id}
+            className="absolute text-2xl opacity-20 float-animation"
+            style={{
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+              animationDelay: `${particle.delay}s`,
+              animationDuration: `${8 + Math.random() * 4}s`
+            }}
+          >
+            {particle.icon}
+          </div>
+        ))}
+      </div>
+
+      {/* Achievement Celebration Confetti */}
+      {showCelebration && (
+        <div className="fixed inset-0 pointer-events-none z-50">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="text-6xl animate-bounce">🎉</div>
+            <div className="absolute inset-0 animate-ping">
+              <div className="w-4 h-4 bg-yellow-400 rounded-full absolute top-0 left-0"></div>
+              <div className="w-3 h-3 bg-pink-400 rounded-full absolute top-4 right-2"></div>
+              <div className="w-5 h-5 bg-blue-400 rounded-full absolute bottom-2 left-3"></div>
+              <div className="w-2 h-2 bg-green-400 rounded-full absolute bottom-0 right-0"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Gen Z Motivational Quote Banner */}
+      <div className="relative z-10 mb-8">
+        <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-200 dark:border-purple-800 shadow-lg backdrop-blur-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="text-3xl animate-pulse">{genZQuotes[currentQuote].emoji}</div>
+                <div>
+                  <p className="text-lg font-medium text-foreground italic">
+                    "{genZQuotes[currentQuote].text}"
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Daily Motivation • Fitness Vibes
+                  </p>
+                </div>
+              </div>
+              <div className="hidden md:flex space-x-2">
+                {genZQuotes.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentQuote ? 'bg-purple-500 scale-125' : 'bg-purple-200 dark:bg-purple-800'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <section className="relative z-10 mb-12">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 slide-up">
         <Card className="card-professional hover-lift hover-glow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -197,5 +347,6 @@ export default function Dashboard({ user }: DashboardProps) {
         </div>
       </div>
     </section>
+    </div>
   );
 }
