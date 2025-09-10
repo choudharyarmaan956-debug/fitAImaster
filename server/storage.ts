@@ -8,9 +8,20 @@ import {
   type WorkoutAlarm,
   type InsertWorkoutAlarm,
   type ProgressEntry,
-  type InsertProgressEntry
+  type InsertProgressEntry,
+  type DailyCheckin,
+  type InsertDailyCheckin,
+  type Achievement,
+  type InsertAchievement,
+  type PersonalRecord,
+  type InsertPersonalRecord,
+  type MealPlan,
+  type InsertMealPlan,
+  type ChatMessage,
+  type InsertChatMessage
 } from "@shared/schema";
 import { randomUUID } from "crypto";
+import bcrypt from "bcryptjs";
 
 export interface IStorage {
   // User methods
@@ -28,6 +39,7 @@ export interface IStorage {
   createCalorieEntry(entry: InsertCalorieEntry): Promise<CalorieEntry>;
   getCalorieEntriesByUserId(userId: string, date?: Date): Promise<CalorieEntry[]>;
   getTodayCaloriesByUserId(userId: string): Promise<number>;
+  getTodayMacrosByUserId(userId: string): Promise<{protein: number, carbs: number, fat: number}>;
 
   // Workout alarm methods
   createWorkoutAlarm(alarm: InsertWorkoutAlarm): Promise<WorkoutAlarm>;
@@ -39,6 +51,28 @@ export interface IStorage {
   createProgressEntry(entry: InsertProgressEntry): Promise<ProgressEntry>;
   getProgressEntriesByUserId(userId: string): Promise<ProgressEntry[]>;
   getLatestProgressByUserId(userId: string): Promise<ProgressEntry | undefined>;
+
+  // Daily check-in methods
+  createDailyCheckin(checkin: InsertDailyCheckin): Promise<DailyCheckin>;
+  getTodayCheckinByUserId(userId: string): Promise<DailyCheckin | undefined>;
+  getCheckinsByUserId(userId: string, limit?: number): Promise<DailyCheckin[]>;
+
+  // Achievement methods
+  createAchievement(achievement: InsertAchievement): Promise<Achievement>;
+  getAchievementsByUserId(userId: string): Promise<Achievement[]>;
+  
+  // Personal record methods
+  createPersonalRecord(record: InsertPersonalRecord): Promise<PersonalRecord>;
+  getPersonalRecordsByUserId(userId: string): Promise<PersonalRecord[]>;
+  
+  // Meal plan methods
+  createMealPlan(plan: InsertMealPlan): Promise<MealPlan>;
+  getMealPlansByUserId(userId: string): Promise<MealPlan[]>;
+  getLatestMealPlanByUserId(userId: string): Promise<MealPlan | undefined>;
+  
+  // Chat methods
+  createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
+  getChatMessagesByUserId(userId: string, limit?: number): Promise<ChatMessage[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -47,6 +81,11 @@ export class MemStorage implements IStorage {
   private calorieEntries: Map<string, CalorieEntry>;
   private workoutAlarms: Map<string, WorkoutAlarm>;
   private progressEntries: Map<string, ProgressEntry>;
+  private dailyCheckins: Map<string, DailyCheckin>;
+  private achievements: Map<string, Achievement>;
+  private personalRecords: Map<string, PersonalRecord>;
+  private mealPlans: Map<string, MealPlan>;
+  private chatMessages: Map<string, ChatMessage>;
 
   constructor() {
     this.users = new Map();
@@ -54,6 +93,11 @@ export class MemStorage implements IStorage {
     this.calorieEntries = new Map();
     this.workoutAlarms = new Map();
     this.progressEntries = new Map();
+    this.dailyCheckins = new Map();
+    this.achievements = new Map();
+    this.personalRecords = new Map();
+    this.mealPlans = new Map();
+    this.chatMessages = new Map();
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -68,9 +112,21 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
+    
+    // Hash password for security
+    const hashedPassword = await bcrypt.hash(insertUser.password, 10);
+    
+    // Calculate default macro targets based on goals and weight
+    const weight = insertUser.weight || 70; // Default weight
+    const calorieTarget = insertUser.calorieTarget || 2000;
+    const proteinTarget = insertUser.proteinTarget || Math.round(weight * 1.6); // 1.6g per kg
+    const fatTarget = insertUser.fatTarget || Math.round((calorieTarget * 0.25) / 9); // 25% of calories
+    const carbTarget = insertUser.carbTarget || Math.round((calorieTarget - (proteinTarget * 4) - (fatTarget * 9)) / 4);
+    
     const user: User = { 
       ...insertUser, 
       id,
+      password: hashedPassword,
       age: insertUser.age ?? null,
       weight: insertUser.weight ?? null,
       height: insertUser.height ?? null,
@@ -78,6 +134,20 @@ export class MemStorage implements IStorage {
       goals: insertUser.goals ? insertUser.goals as string[] : null,
       workoutDays: insertUser.workoutDays ?? null,
       calorieTarget: insertUser.calorieTarget ?? null,
+      // New nutrition preferences with defaults
+      dietType: insertUser.dietType ?? null,
+      allergies: insertUser.allergies ? insertUser.allergies as string[] : null,
+      dislikedFoods: insertUser.dislikedFoods ? insertUser.dislikedFoods as string[] : null,
+      proteinTarget: proteinTarget,
+      carbTarget: carbTarget,
+      fatTarget: fatTarget,
+      // App preferences
+      darkMode: insertUser.darkMode ?? false,
+      pushNotifications: insertUser.pushNotifications ?? true,
+      // Streaks and stats
+      currentStreak: 0,
+      longestStreak: 0,
+      totalWorkouts: 0,
       createdAt: new Date()
     };
     this.users.set(id, user);
@@ -128,6 +198,11 @@ export class MemStorage implements IStorage {
       quantity: insertEntry.quantity ?? null,
       unit: insertEntry.unit ?? null,
       protein: insertEntry.protein ?? null,
+      carbs: insertEntry.carbs ?? null,
+      fat: insertEntry.fat ?? null,
+      fiber: insertEntry.fiber ?? null,
+      sugar: insertEntry.sugar ?? null,
+      mealType: insertEntry.mealType ?? null,
       entryDate: new Date()
     };
     this.calorieEntries.set(id, entry);
@@ -153,6 +228,16 @@ export class MemStorage implements IStorage {
     const today = new Date();
     const todayEntries = await this.getCalorieEntriesByUserId(userId, today);
     return todayEntries.reduce((total, entry) => total + entry.calories, 0);
+  }
+
+  async getTodayMacrosByUserId(userId: string): Promise<{protein: number, carbs: number, fat: number}> {
+    const today = new Date();
+    const todayEntries = await this.getCalorieEntriesByUserId(userId, today);
+    return todayEntries.reduce((totals, entry) => ({
+      protein: totals.protein + (entry.protein || 0),
+      carbs: totals.carbs + (entry.carbs || 0),
+      fat: totals.fat + (entry.fat || 0)
+    }), { protein: 0, carbs: 0, fat: 0 });
   }
 
   async createWorkoutAlarm(insertAlarm: InsertWorkoutAlarm): Promise<WorkoutAlarm> {
@@ -211,6 +296,125 @@ export class MemStorage implements IStorage {
   async getLatestProgressByUserId(userId: string): Promise<ProgressEntry | undefined> {
     const entries = await this.getProgressEntriesByUserId(userId);
     return entries[0];
+  }
+
+  // Daily Check-in methods
+  async createDailyCheckin(insertCheckin: InsertDailyCheckin): Promise<DailyCheckin> {
+    const id = randomUUID();
+    const checkin: DailyCheckin = {
+      ...insertCheckin,
+      id,
+      readinessScore: insertCheckin.readinessScore ?? null,
+      notes: insertCheckin.notes ?? null,
+      checkinDate: new Date()
+    };
+    this.dailyCheckins.set(id, checkin);
+    return checkin;
+  }
+
+  async getTodayCheckinByUserId(userId: string): Promise<DailyCheckin | undefined> {
+    const today = new Date().toDateString();
+    return Array.from(this.dailyCheckins.values()).find(
+      checkin => checkin.userId === userId && 
+                 checkin.checkinDate && 
+                 new Date(checkin.checkinDate).toDateString() === today
+    );
+  }
+
+  async getCheckinsByUserId(userId: string, limit?: number): Promise<DailyCheckin[]> {
+    const checkins = Array.from(this.dailyCheckins.values())
+      .filter(checkin => checkin.userId === userId)
+      .sort((a, b) => new Date(b.checkinDate!).getTime() - new Date(a.checkinDate!).getTime());
+    return limit ? checkins.slice(0, limit) : checkins;
+  }
+
+  // Achievement methods
+  async createAchievement(insertAchievement: InsertAchievement): Promise<Achievement> {
+    const id = randomUUID();
+    const achievement: Achievement = {
+      ...insertAchievement,
+      id,
+      unlockedAt: new Date()
+    };
+    this.achievements.set(id, achievement);
+    return achievement;
+  }
+
+  async getAchievementsByUserId(userId: string): Promise<Achievement[]> {
+    return Array.from(this.achievements.values())
+      .filter(achievement => achievement.userId === userId)
+      .sort((a, b) => new Date(b.unlockedAt!).getTime() - new Date(a.unlockedAt!).getTime());
+  }
+
+  // Personal Record methods
+  async createPersonalRecord(insertRecord: InsertPersonalRecord): Promise<PersonalRecord> {
+    const id = randomUUID();
+    const record: PersonalRecord = {
+      ...insertRecord,
+      id,
+      previousValue: insertRecord.previousValue ?? null,
+      improvementPercentage: insertRecord.improvementPercentage ?? null,
+      achievedAt: new Date()
+    };
+    this.personalRecords.set(id, record);
+    return record;
+  }
+
+  async getPersonalRecordsByUserId(userId: string): Promise<PersonalRecord[]> {
+    return Array.from(this.personalRecords.values())
+      .filter(record => record.userId === userId)
+      .sort((a, b) => new Date(b.achievedAt!).getTime() - new Date(a.achievedAt!).getTime());
+  }
+
+  // Meal Plan methods
+  async createMealPlan(insertPlan: InsertMealPlan): Promise<MealPlan> {
+    const id = randomUUID();
+    const plan: MealPlan = {
+      ...insertPlan,
+      id,
+      plan: insertPlan.plan ?? null,
+      targetCalories: insertPlan.targetCalories ?? null,
+      targetProtein: insertPlan.targetProtein ?? null,
+      targetCarbs: insertPlan.targetCarbs ?? null,
+      targetFat: insertPlan.targetFat ?? null,
+      dietType: insertPlan.dietType ?? null,
+      duration: insertPlan.duration ?? null,
+      groceryList: insertPlan.groceryList ? insertPlan.groceryList as string[] : null,
+      createdAt: new Date()
+    };
+    this.mealPlans.set(id, plan);
+    return plan;
+  }
+
+  async getMealPlansByUserId(userId: string): Promise<MealPlan[]> {
+    return Array.from(this.mealPlans.values())
+      .filter(plan => plan.userId === userId)
+      .sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime());
+  }
+
+  async getLatestMealPlanByUserId(userId: string): Promise<MealPlan | undefined> {
+    const plans = await this.getMealPlansByUserId(userId);
+    return plans[0];
+  }
+
+  // Chat methods
+  async createChatMessage(insertMessage: InsertChatMessage): Promise<ChatMessage> {
+    const id = randomUUID();
+    const message: ChatMessage = {
+      ...insertMessage,
+      id,
+      context: insertMessage.context ?? null,
+      timestamp: new Date()
+    };
+    this.chatMessages.set(id, message);
+    return message;
+  }
+
+  async getChatMessagesByUserId(userId: string, limit?: number): Promise<ChatMessage[]> {
+    const messages = Array.from(this.chatMessages.values())
+      .filter(message => message.userId === userId)
+      .sort((a, b) => new Date(a.timestamp!).getTime() - new Date(b.timestamp!).getTime()); // Chronological order
+    return limit ? messages.slice(-limit) : messages; // Get most recent messages
   }
 }
 
