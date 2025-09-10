@@ -27,13 +27,13 @@ export default function Dashboard({ user }: DashboardProps) {
   return (
     <section className="mb-12">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 slide-up">
+        <Card className="card-professional hover-lift hover-glow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-muted-foreground text-sm font-medium">Today's Calories</p>
-                <p className="text-2xl font-bold text-foreground" data-testid="text-calories-consumed">
+                <p className="text-2xl font-bold gradient-text-primary count-up" data-testid="text-calories-consumed">
                   {caloriesConsumed}
                 </p>
                 <p className={`text-sm ${caloriesRemaining < 200 ? "text-destructive" : "text-muted-foreground"}`}>
@@ -52,7 +52,7 @@ export default function Dashboard({ user }: DashboardProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-muted-foreground text-sm font-medium">This Week's Workouts</p>
-                <p className="text-2xl font-bold text-foreground" data-testid="text-workouts-completed">
+                <p className="text-2xl font-bold gradient-text-primary count-up" data-testid="text-workouts-completed">
                   {latestProgress?.workoutsCompleted || 0}
                 </p>
                 <p className="text-secondary text-sm">Great progress!</p>

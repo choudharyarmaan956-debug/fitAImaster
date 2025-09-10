@@ -86,11 +86,11 @@ export default function OnboardingForm({ onUserCreated }: OnboardingFormProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl">
+    <div className="min-h-screen gradient-surface flex items-center justify-center p-4">
+      <Card className="w-full max-w-4xl card-professional shadow-professional slide-up">
         <CardContent className="p-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
+            <h2 className="text-4xl heading-1 gradient-text mb-4 gradient-animation">
               Welcome to Your AI Fitness Journey! 🚀
             </h2>
             <p className="text-muted-foreground text-lg">
@@ -294,7 +294,7 @@ export default function OnboardingForm({ onUserCreated }: OnboardingFormProps) {
                   </p>
                 </div>
                 
-                <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+                <div className="bg-muted/50 rounded-lg p-4 space-y-2 card-professional">
                   <p><span className="font-medium">Age:</span> {form.watch("age")} years</p>
                   <p><span className="font-medium">Weight:</span> {form.watch("weight")} kg</p>
                   <p><span className="font-medium">Height:</span> {form.watch("height")} cm</p>
@@ -313,6 +313,7 @@ export default function OnboardingForm({ onUserCreated }: OnboardingFormProps) {
                   type="button" 
                   variant="outline" 
                   onClick={prevStep}
+                  className="hover-lift"
                   data-testid="button-previous"
                 >
                   Previous
@@ -323,7 +324,7 @@ export default function OnboardingForm({ onUserCreated }: OnboardingFormProps) {
                 <Button 
                   type="button" 
                   onClick={nextStep}
-                  className="ml-auto"
+                  className="ml-auto hover-lift gradient-primary"
                   data-testid="button-next"
                 >
                   Next
@@ -331,7 +332,7 @@ export default function OnboardingForm({ onUserCreated }: OnboardingFormProps) {
               ) : (
                 <Button 
                   type="submit" 
-                  className="ml-auto pulse-animation" 
+                  className="ml-auto pulse-animation button-modern hover-lift gradient-primary" 
                   disabled={createUserMutation.isPending}
                   data-testid="button-generate-plan"
                 >

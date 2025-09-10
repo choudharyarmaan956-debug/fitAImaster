@@ -23,21 +23,21 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen gradient-surface">
       {/* Header */}
-      <header className="bg-card border-b border-border sticky top-0 z-50">
+      <header className="glass border-b border-border sticky top-0 z-50 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <Dumbbell className="text-primary-foreground w-4 h-4" />
               </div>
-              <h1 className="text-xl font-bold text-foreground">FitGenius</h1>
+              <h1 className="text-xl heading-2 gradient-text-primary">FitGenius</h1>
             </div>
             <nav className="hidden md:flex space-x-8">
               <button 
                 onClick={() => setActiveSection("dashboard")}
-                className={`transition-colors ${activeSection === "dashboard" ? "text-primary" : "text-foreground hover:text-primary"}`}
+                className={`transition-colors hover-lift ${activeSection === "dashboard" ? "text-primary gradient-text-primary" : "text-foreground hover:text-primary"}`}
                 data-testid="nav-dashboard"
               >
                 Dashboard
@@ -72,7 +72,7 @@ export default function Home() {
               >
                 <Bell className="text-foreground w-5 h-5" />
               </button>
-              <div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+              <div className="w-8 h-8 gradient-bg rounded-full shadow-glow hover-scale"></div>
             </div>
           </div>
         </div>
