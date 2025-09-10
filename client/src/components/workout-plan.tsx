@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { Bot, Play, RotateCcw, Dumbbell } from "lucide-react";
+import DynamicBackgroundWrapper from "./dynamic-background-wrapper";
 
 interface WorkoutPlanProps {
   user: any;
@@ -50,8 +51,9 @@ export default function WorkoutPlan({ user }: WorkoutPlanProps) {
 
   if (isLoading) {
     return (
-      <section className="mb-12">
-        <Card>
+      <DynamicBackgroundWrapper section="workouts">
+        <section className="mb-12 relative z-10">
+          <Card>
           <CardContent className="p-8">
             <div className="space-y-4">
               <Skeleton className="h-8 w-64" />
@@ -69,13 +71,15 @@ export default function WorkoutPlan({ user }: WorkoutPlanProps) {
           </CardContent>
         </Card>
       </section>
+      </DynamicBackgroundWrapper>
     );
   }
 
   if (!workoutPlan && !generatePlanMutation.isPending) {
     return (
-      <section className="mb-12">
-        <Card>
+      <DynamicBackgroundWrapper section="workouts">
+        <section className="mb-12 relative z-10">
+          <Card>
           <CardContent className="p-8 text-center">
             <div className="max-w-md mx-auto">
               <Bot className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
@@ -97,12 +101,14 @@ export default function WorkoutPlan({ user }: WorkoutPlanProps) {
           </CardContent>
         </Card>
       </section>
+      </DynamicBackgroundWrapper>
     );
   }
 
   return (
-    <section className="mb-12">
-      <Card>
+    <DynamicBackgroundWrapper section="workouts">
+      <section className="mb-12 relative z-10">
+        <Card>
         <CardContent className="p-8">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -200,5 +206,6 @@ export default function WorkoutPlan({ user }: WorkoutPlanProps) {
         </CardContent>
       </Card>
     </section>
+    </DynamicBackgroundWrapper>
   );
 }

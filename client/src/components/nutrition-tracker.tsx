@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Bot, AlertTriangle, Dna, Sparkles } from "lucide-react";
 import { z } from "zod";
+import DynamicBackgroundWrapper from "./dynamic-background-wrapper";
 
 const foodEntrySchema = z.object({
   foodName: z.string().min(1, "Food name is required"),
@@ -132,8 +133,9 @@ export default function NutritionTracker({ user }: NutritionTrackerProps) {
   };
 
   return (
-    <section className="mb-12">
-      <div className="grid md:grid-cols-2 gap-8">
+    <DynamicBackgroundWrapper section="nutrition">
+      <section className="mb-12 relative z-10">
+        <div className="grid md:grid-cols-2 gap-8">
         {/* Calorie Tracker */}
         <Card>
           <CardContent className="p-8">
@@ -365,5 +367,6 @@ export default function NutritionTracker({ user }: NutritionTrackerProps) {
         </Card>
       </div>
     </section>
+    </DynamicBackgroundWrapper>
   );
 }

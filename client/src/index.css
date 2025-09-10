@@ -513,6 +513,322 @@
     transform: translateY(0);
   }
   
+  /* Section-Specific Dynamic Backgrounds */
+  
+  /* =============================================
+     NUTRITION SECTION - Food & Wellness Themes
+     ============================================= */
+  
+  /* Nutrition Morning - Fresh Breakfast Vibes */
+  .nutrition-morning {
+    background: linear-gradient(135deg, 
+      hsl(35, 85%, 75%) 0%,   /* Warm Orange */
+      hsl(45, 90%, 80%) 25%,  /* Golden Yellow */
+      hsl(55, 85%, 75%) 50%,  /* Soft Lemon */
+      hsl(35, 80%, 70%) 100%  /* Peach */
+    );
+  }
+  
+  /* Nutrition Afternoon - Healthy Lunch Energy */
+  .nutrition-afternoon {
+    background: linear-gradient(135deg, 
+      hsl(120, 60%, 65%) 0%,  /* Fresh Green */
+      hsl(110, 65%, 60%) 25%, /* Lime Green */
+      hsl(95, 55%, 55%) 50%,  /* Avocado Green */
+      hsl(140, 50%, 50%) 100% /* Forest Green */
+    );
+  }
+  
+  /* Nutrition Evening - Cozy Dinner Atmosphere */
+  .nutrition-evening {
+    background: linear-gradient(135deg, 
+      hsl(15, 80%, 60%) 0%,   /* Warm Red */
+      hsl(25, 85%, 65%) 25%,  /* Orange Red */
+      hsl(35, 90%, 70%) 50%,  /* Golden Orange */
+      hsl(10, 75%, 55%) 100%  /* Deep Red */
+    );
+  }
+  
+  /* ============================================
+     WORKOUTS SECTION - Fitness & Energy Themes  
+     ============================================ */
+  
+  /* Workouts Morning - Zen Yoga Gradients */
+  .workouts-morning {
+    background: linear-gradient(135deg, 
+      hsl(280, 60%, 75%) 0%,  /* Soft Purple */
+      hsl(300, 65%, 80%) 25%, /* Light Pink */
+      hsl(320, 70%, 75%) 50%, /* Rose Pink */
+      hsl(290, 55%, 70%) 100% /* Lavender */
+    );
+  }
+  
+  /* Workouts Afternoon - High-Energy HIIT */
+  .workouts-afternoon {
+    background: linear-gradient(135deg, 
+      hsl(220, 90%, 65%) 0%,  /* Electric Blue */
+      hsl(240, 85%, 70%) 25%, /* Bright Blue */
+      hsl(260, 80%, 75%) 50%, /* Purple Blue */
+      hsl(0, 85%, 60%) 100%   /* Intense Red */
+    );
+  }
+  
+  /* Workouts Evening - Strength Training Power */
+  .workouts-evening {
+    background: linear-gradient(135deg, 
+      hsl(270, 70%, 50%) 0%,  /* Deep Purple */
+      hsl(280, 75%, 55%) 25%, /* Royal Purple */
+      hsl(45, 85%, 60%) 50%,  /* Gold */
+      hsl(260, 65%, 45%) 100% /* Dark Purple */
+    );
+  }
+  
+  /* =========================================
+     ALARMS SECTION - Time & Motivation Themes
+     ========================================= */
+  
+  /* Alarms Morning - Sunrise Awakening */
+  .alarms-morning {
+    background: linear-gradient(135deg, 
+      hsl(35, 100%, 70%) 0%,  /* Golden Sunrise */
+      hsl(25, 95%, 65%) 25%,  /* Orange Glow */
+      hsl(45, 90%, 75%) 50%,  /* Yellow Burst */
+      hsl(15, 85%, 60%) 100%  /* Dawn Red */
+    );
+  }
+  
+  /* Alarms Afternoon - Structured Scheduling */
+  .alarms-afternoon {
+    background: linear-gradient(135deg, 
+      hsl(200, 80%, 65%) 0%,  /* Professional Blue */
+      hsl(180, 75%, 60%) 25%, /* Teal Blue */
+      hsl(190, 70%, 55%) 50%, /* Ocean Blue */
+      hsl(210, 85%, 70%) 100% /* Sky Blue */
+    );
+  }
+  
+  /* Alarms Evening - Wind-down Preparation */
+  .alarms-evening {
+    background: linear-gradient(135deg, 
+      hsl(240, 70%, 55%) 0%,  /* Deep Indigo */
+      hsl(260, 75%, 60%) 25%, /* Purple Twilight */
+      hsl(280, 80%, 65%) 50%, /* Violet Evening */
+      hsl(250, 65%, 50%) 100% /* Night Purple */
+    );
+  }
+  
+  /* ===========================================
+     PROGRESS SECTION - Achievement & Growth Themes
+     =========================================== */
+  
+  /* Progress Morning - Fresh Growth */
+  .progress-morning {
+    background: linear-gradient(135deg, 
+      hsl(160, 70%, 55%) 0%,  /* Emerald Green */
+      hsl(180, 75%, 60%) 25%, /* Cyan Green */
+      hsl(170, 65%, 50%) 50%, /* Teal Growth */
+      hsl(150, 60%, 45%) 100% /* Forest Success */
+    );
+  }
+  
+  /* Progress Afternoon - Golden Achievements */
+  .progress-afternoon {
+    background: linear-gradient(135deg, 
+      hsl(50, 95%, 65%) 0%,   /* Bright Gold */
+      hsl(40, 90%, 60%) 25%,  /* Rich Gold */
+      hsl(35, 85%, 55%) 50%,  /* Deep Gold */
+      hsl(45, 100%, 70%) 100% /* Victory Gold */
+    );
+  }
+  
+  /* Progress Evening - Reflective Planning */
+  .progress-evening {
+    background: linear-gradient(135deg, 
+      hsl(220, 85%, 60%) 0%,  /* Deep Blue */
+      hsl(240, 80%, 65%) 25%, /* Royal Blue */
+      hsl(260, 75%, 70%) 50%, /* Purple Blue */
+      hsl(230, 70%, 55%) 100% /* Contemplative Blue */
+    );
+  }
+  
+  /* ======================================
+     LANDING PAGE - Professional Marketing
+     ====================================== */
+  
+  .landing-hero {
+    background: linear-gradient(135deg, 
+      hsl(230, 85%, 62%) 0%,  /* Primary Brand */
+      hsl(280, 70%, 65%) 25%, /* Purple Magic */
+      hsl(160, 70%, 55%) 50%, /* Success Green */
+      hsl(200, 80%, 58%) 100% /* Professional Blue */
+    );
+  }
+  
+  .landing-features {
+    background: linear-gradient(135deg, 
+      hsl(220, 25%, 98%) 0%,  /* Light Surface */
+      hsl(230, 30%, 95%) 25%, /* Subtle Blue */
+      hsl(240, 20%, 96%) 50%, /* Professional Gray */
+      hsl(220, 25%, 98%) 100% /* Clean White */
+    );
+  }
+  
+  /* ========================
+     ENHANCED ANIMATIONS
+     ======================== */
+  
+  @keyframes nutrition-particle-float {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-20px) translateX(10px) rotate(90deg);
+    }
+    50% {
+      transform: translateY(-10px) translateX(-5px) rotate(180deg);
+    }
+    75% {
+      transform: translateY(-25px) translateX(-10px) rotate(270deg);
+    }
+  }
+  
+  @keyframes workout-energy-pulse {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.3) rotate(180deg);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes alarm-time-tick {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-15px) scale(1.1);
+    }
+  }
+  
+  @keyframes progress-achievement-rise {
+    0% {
+      transform: translateY(20px) scale(0.8);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateY(-10px) scale(1.2);
+      opacity: 0.9;
+    }
+    100% {
+      transform: translateY(0px) scale(1);
+      opacity: 0.8;
+    }
+  }
+  
+  @keyframes section-transition-fade {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes hero-preview-slide {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    33% {
+      transform: translateX(-100%);
+    }
+    66% {
+      transform: translateX(-200%);
+    }
+  }
+  
+  /* Animation Classes for Each Section */
+  .nutrition-particles {
+    animation: nutrition-particle-float 8s ease-in-out infinite;
+  }
+  
+  .workout-particles {
+    animation: workout-energy-pulse 4s ease-in-out infinite;
+  }
+  
+  .alarm-particles {
+    animation: alarm-time-tick 3s ease-in-out infinite;
+  }
+  
+  .progress-particles {
+    animation: progress-achievement-rise 6s ease-in-out infinite;
+  }
+  
+  .section-transition {
+    animation: section-transition-fade 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .hero-preview-animation {
+    animation: hero-preview-slide 12s infinite linear;
+  }
+  
+  /* Background Wave Animations for Each Section */
+  .nutrition-wave {
+    background-size: 400% 400%;
+    animation: background-wave 6s ease-in-out infinite;
+  }
+  
+  .workout-wave {
+    background-size: 300% 300%;
+    animation: background-wave 4s ease-in-out infinite;
+  }
+  
+  .alarm-wave {
+    background-size: 350% 350%;
+    animation: background-wave 5s ease-in-out infinite;
+  }
+  
+  .progress-wave {
+    background-size: 450% 450%;
+    animation: background-wave 7s ease-in-out infinite;
+  }
+  
+  /* Enhanced Hover Effects for Sections */
+  .section-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .section-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Cross-fade Transition Between Sections */
+  .section-crossfade-enter {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  
+  .section-crossfade-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .section-crossfade-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .section-crossfade-exit-active {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   /* Mobile Responsive */
   @media (max-width: 768px) {
     .gradient-text {
@@ -526,6 +842,23 @@
     .hover-lift:hover,
     .hover-scale:hover {
       transform: none;
+    }
+    
+    /* Reduce particle count and animations on mobile */
+    .nutrition-particles,
+    .workout-particles,
+    .alarm-particles,
+    .progress-particles {
+      animation-duration: 8s;
+    }
+    
+    /* Simpler background waves on mobile */
+    .nutrition-wave,
+    .workout-wave,
+    .alarm-wave,
+    .progress-wave {
+      background-size: 200% 200%;
+      animation-duration: 8s;
     }
   }
 }

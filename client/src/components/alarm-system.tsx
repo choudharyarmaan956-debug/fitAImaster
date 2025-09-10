@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Bell, Plus, Pause, Play, Trash2 } from "lucide-react";
 import { z } from "zod";
+import DynamicBackgroundWrapper from "./dynamic-background-wrapper";
 
 const alarmSchema = insertWorkoutAlarmSchema.pick({
   time: true,
@@ -132,8 +133,9 @@ export default function AlarmSystem({ user }: AlarmSystemProps) {
 
   if (!isExpanded) {
     return (
-      <div className="fixed bottom-6 right-6 z-40">
-        <Button
+      <DynamicBackgroundWrapper section="alarms">
+        <div className="fixed bottom-6 right-6 z-40">
+          <Button
           onClick={() => setIsExpanded(true)}
           className="rounded-full w-14 h-14 shadow-lg"
           data-testid="button-expand-alarms"
@@ -141,12 +143,14 @@ export default function AlarmSystem({ user }: AlarmSystemProps) {
           <Bell className="w-6 h-6" />
         </Button>
       </div>
+      </DynamicBackgroundWrapper>
     );
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 w-96 max-w-[calc(100vw-2rem)]">
-      <Card>
+    <DynamicBackgroundWrapper section="alarms">
+      <div className="fixed bottom-6 right-6 z-40 w-96 max-w-[calc(100vw-2rem)]">
+        <Card>
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-foreground">Workout Alarms</h3>
@@ -180,7 +184,7 @@ export default function AlarmSystem({ user }: AlarmSystemProps) {
                     <Checkbox
                       checked={form.watch("days")?.includes(day) ?? false}
                       onCheckedChange={(checked) => {
-                        const currentDays: string[] = form.getValues("days") || [];
+                        const currentDays = (form.getValues("days") as string[]) || [];
                         if (checked) {
                           form.setValue("days", [...currentDays, day]);
                         } else {
@@ -267,5 +271,6 @@ export default function AlarmSystem({ user }: AlarmSystemProps) {
         </CardContent>
       </Card>
     </div>
+    </DynamicBackgroundWrapper>
   );
 }
