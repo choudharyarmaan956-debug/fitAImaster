@@ -21,7 +21,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userData = insertUserSchema.parse(req.body);
       const user = await storage.createUser(userData);
-      res.json(user);
+      const { password, ...publicUser } = user;
+      res.json(publicUser);
     } catch (error: any) {
       res.status(400).json({ message: error.message });
     }
@@ -33,7 +34,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      res.json(user);
+      const { password, ...publicUser } = user;
+      res.json(publicUser);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }
