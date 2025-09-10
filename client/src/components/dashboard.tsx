@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Dumbbell, TrendingUp, Trophy, Play, Utensils, AlarmClock, RotateCcw, Heart, Zap, Apple, Coffee } from "lucide-react";
 import DailyCheckin from "./daily-checkin";
+import WorkoutTimer from "./workout-timer";
 
 interface DashboardProps {
   user: any;
@@ -16,6 +17,7 @@ export default function Dashboard({ user }: DashboardProps) {
   const [backgroundTheme, setBackgroundTheme] = useState('morning');
   const [showCelebration, setShowCelebration] = useState(false);
   const [particles, setParticles] = useState<Array<{id: number, icon: string, x: number, y: number, delay: number}>>([]);
+  const [showWorkoutTimer, setShowWorkoutTimer] = useState(false);
 
   const { data: todayCalories = { totalCalories: 0 } } = useQuery<{ totalCalories: number }>({
     queryKey: ["/api/calories/today", user.id],

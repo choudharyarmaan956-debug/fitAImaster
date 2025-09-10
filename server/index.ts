@@ -1,10 +1,22 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { aiRateLimiter, generalRateLimiter, authRateLimiter, createRateLimiter } from "./middleware/rateLimiter";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Apply rate limiting
+app.use('/api', generalRateLimiter);
+app.use('/api/workout-plans/generate', aiRateLimiter);
+app.use('/api/meal-plans/generate', aiRateLimiter);
+app.use('/api/calories/analyze', aiRateLimiter);
+app.use('/api/chat', aiRateLimiter);
+app.use('/api/users', authRateLimiter);
+app.use('/api/checkins', createRateLimiter);
+app.use('/api/achievements', createRateLimiter);
+app.use('/api/personal-records', createRateLimiter);
 
 app.use((req, res, next) => {
   const start = Date.now();
