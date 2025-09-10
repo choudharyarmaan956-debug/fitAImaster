@@ -10,12 +10,12 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user }: DashboardProps) {
-  const { data: todayCalories = { totalCalories: 0 } } = useQuery({
+  const { data: todayCalories = { totalCalories: 0 } } = useQuery<{ totalCalories: number }>({
     queryKey: ["/api/calories/today", user.id],
     enabled: !!user.id,
   });
 
-  const { data: latestProgress } = useQuery({
+  const { data: latestProgress } = useQuery<{ weight?: number; workoutsCompleted?: number } | undefined>({
     queryKey: ["/api/progress/latest", user.id],
     enabled: !!user.id,
   });

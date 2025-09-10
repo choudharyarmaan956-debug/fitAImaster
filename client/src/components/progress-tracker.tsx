@@ -9,12 +9,12 @@ interface ProgressTrackerProps {
 }
 
 export default function ProgressTracker({ user }: ProgressTrackerProps) {
-  const { data: progressEntries = [] } = useQuery({
+  const { data: progressEntries = [] } = useQuery<any[]>({
     queryKey: ["/api/progress/user", user.id],
     enabled: !!user.id,
   });
 
-  const { data: latestProgress } = useQuery({
+  const { data: latestProgress } = useQuery<{ weight?: number; workoutsCompleted?: number } | undefined>({
     queryKey: ["/api/progress/latest", user.id],
     enabled: !!user.id,
   });

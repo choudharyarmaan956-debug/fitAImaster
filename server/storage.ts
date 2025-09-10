@@ -75,7 +75,7 @@ export class MemStorage implements IStorage {
       weight: insertUser.weight ?? null,
       height: insertUser.height ?? null,
       fitnessLevel: insertUser.fitnessLevel ?? null,
-      goals: insertUser.goals ?? null,
+      goals: insertUser.goals ? Array.from(insertUser.goals) : null,
       workoutDays: insertUser.workoutDays ?? null,
       calorieTarget: insertUser.calorieTarget ?? null,
       createdAt: new Date()
@@ -98,7 +98,7 @@ export class MemStorage implements IStorage {
     const plan: WorkoutPlan = {
       ...insertPlan,
       id,
-      plan: insertPlan.plan ?? null,
+      plan: insertPlan.plan,
       createdAt: new Date()
     };
     this.workoutPlans.set(id, plan);
@@ -161,7 +161,7 @@ export class MemStorage implements IStorage {
       ...insertAlarm,
       id,
       message: insertAlarm.message ?? null,
-      days: insertAlarm.days ?? null,
+      days: insertAlarm.days ? Array.from(insertAlarm.days) : null,
       isActive: insertAlarm.isActive ?? null,
       createdAt: new Date()
     };

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { Bot, Play, RotateCcw } from "lucide-react";
+import { Bot, Play, RotateCcw, Dumbbell } from "lucide-react";
 
 interface WorkoutPlanProps {
   user: any;
@@ -14,7 +14,7 @@ interface WorkoutPlanProps {
 export default function WorkoutPlan({ user }: WorkoutPlanProps) {
   const { toast } = useToast();
 
-  const { data: workoutPlan, isLoading } = useQuery({
+  const { data: workoutPlan, isLoading } = useQuery<{ plan?: any } | undefined>({
     queryKey: ["/api/workout-plans/user", user.id],
     enabled: !!user.id,
   });
@@ -126,10 +126,10 @@ export default function WorkoutPlan({ user }: WorkoutPlanProps) {
             </div>
           </div>
 
-          {workoutPlan && (
+          {workoutPlan && workoutPlan.plan && (
             <>
               {/* Plan Overview */}
-              {workoutPlan.plan?.overview && (
+              {workoutPlan.plan.overview && (
                 <div className="mb-8 p-4 bg-muted/50 rounded-lg">
                   <p className="text-foreground">{workoutPlan.plan.overview}</p>
                 </div>
@@ -137,7 +137,7 @@ export default function WorkoutPlan({ user }: WorkoutPlanProps) {
 
               {/* Weekly Schedule */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {workoutPlan.plan?.weeklySchedule?.map((day: any, index: number) => (
+                {workoutPlan.plan.weeklySchedule?.map((day: any, index: number) => (
                   <Card key={index} className="hover:shadow-md transition-shadow">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
@@ -182,7 +182,7 @@ export default function WorkoutPlan({ user }: WorkoutPlanProps) {
               </div>
 
               {/* Training Tips */}
-              {workoutPlan.plan?.tips && workoutPlan.plan.tips.length > 0 && (
+              {workoutPlan.plan.tips && workoutPlan.plan.tips.length > 0 && (
                 <div className="mt-8">
                   <h3 className="text-lg font-semibold text-foreground mb-4">Training Tips</h3>
                   <div className="grid md:grid-cols-2 gap-4">

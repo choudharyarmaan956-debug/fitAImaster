@@ -38,7 +38,7 @@ export default function AlarmSystem({ user }: AlarmSystemProps) {
     },
   });
 
-  const { data: alarms = [] } = useQuery({
+  const { data: alarms = [] } = useQuery<any[]>({
     queryKey: ["/api/alarms/user", user.id],
     enabled: !!user.id,
   });
@@ -180,11 +180,11 @@ export default function AlarmSystem({ user }: AlarmSystemProps) {
                     <Checkbox
                       checked={form.watch("days")?.includes(day)}
                       onCheckedChange={(checked) => {
-                        const currentDays = form.getValues("days") || [];
+                        const currentDays: string[] = form.getValues("days") || [];
                         if (checked) {
                           form.setValue("days", [...currentDays, day]);
                         } else {
-                          form.setValue("days", currentDays.filter(d => d !== day));
+                          form.setValue("days", currentDays.filter((d: string) => d !== day));
                         }
                       }}
                       data-testid={`checkbox-day-${day.toLowerCase()}`}

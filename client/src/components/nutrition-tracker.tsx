@@ -40,12 +40,12 @@ export default function NutritionTracker({ user }: NutritionTrackerProps) {
     },
   });
 
-  const { data: todayCalories = { totalCalories: 0 } } = useQuery({
+  const { data: todayCalories = { totalCalories: 0 } } = useQuery<{ totalCalories: number }>({
     queryKey: ["/api/calories/today", user.id],
     enabled: !!user.id,
   });
 
-  const { data: todayEntries = [] } = useQuery({
+  const { data: todayEntries = [] } = useQuery<any[]>({
     queryKey: ["/api/calories/user", user.id, new Date().toISOString().split('T')[0]],
     enabled: !!user.id,
   });
