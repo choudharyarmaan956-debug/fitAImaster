@@ -71,6 +71,13 @@ export class MemStorage implements IStorage {
     const user: User = { 
       ...insertUser, 
       id,
+      age: insertUser.age ?? null,
+      weight: insertUser.weight ?? null,
+      height: insertUser.height ?? null,
+      fitnessLevel: insertUser.fitnessLevel ?? null,
+      goals: insertUser.goals ?? null,
+      workoutDays: insertUser.workoutDays ?? null,
+      calorieTarget: insertUser.calorieTarget ?? null,
       createdAt: new Date()
     };
     this.users.set(id, user);
@@ -91,6 +98,7 @@ export class MemStorage implements IStorage {
     const plan: WorkoutPlan = {
       ...insertPlan,
       id,
+      plan: insertPlan.plan ?? null,
       createdAt: new Date()
     };
     this.workoutPlans.set(id, plan);
@@ -117,6 +125,9 @@ export class MemStorage implements IStorage {
     const entry: CalorieEntry = {
       ...insertEntry,
       id,
+      quantity: insertEntry.quantity ?? null,
+      unit: insertEntry.unit ?? null,
+      protein: insertEntry.protein ?? null,
       entryDate: new Date()
     };
     this.calorieEntries.set(id, entry);
@@ -149,6 +160,9 @@ export class MemStorage implements IStorage {
     const alarm: WorkoutAlarm = {
       ...insertAlarm,
       id,
+      message: insertAlarm.message ?? null,
+      days: insertAlarm.days ?? null,
+      isActive: insertAlarm.isActive ?? null,
       createdAt: new Date()
     };
     this.workoutAlarms.set(id, alarm);
@@ -179,6 +193,9 @@ export class MemStorage implements IStorage {
     const entry: ProgressEntry = {
       ...insertEntry,
       id,
+      weight: insertEntry.weight ?? null,
+      workoutsCompleted: insertEntry.workoutsCompleted ?? null,
+      caloriesConsumed: insertEntry.caloriesConsumed ?? null,
       entryDate: new Date()
     };
     this.progressEntries.set(id, entry);
