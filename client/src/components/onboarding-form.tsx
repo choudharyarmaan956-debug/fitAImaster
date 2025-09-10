@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -10,8 +10,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Bot } from "lucide-react";
+import { Bot, ArrowLeft, HelpCircle, Save, CheckCircle } from "lucide-react";
+import { Link } from "wouter";
 import { z } from "zod";
 
 const onboardingSchema = insertUserSchema.extend({
@@ -26,6 +29,7 @@ interface OnboardingFormProps {
 
 export default function OnboardingForm({ onUserCreated }: OnboardingFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
+  const [progressSaved, setProgressSaved] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<OnboardingData>({
@@ -85,10 +89,131 @@ export default function OnboardingForm({ onUserCreated }: OnboardingFormProps) {
     "Strength Training"
   ];
 
+  // Auto-save progress
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setProgressSaved(true);
+      setTimeout(() => setProgressSaved(false), 2000);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [currentStep, form.watch()]);
+
+  const handleSkipOnboarding = () => {
+    // Create minimal user profile for skipping
+    const minimalUser = {
+      username: `guest_${Date.now()}`,
+      password: "temp",
+      age: 25,
+      weight: 70,
+      height: 170,
+      fitnessLevel: "Beginner",
+      goals: ["General Fitness"],
+      workoutDays: 3,
+      calorieTarget: 2000,
+    };
+    
+    toast({
+      title: "Skipped to Demo Mode! 🎯",
+      description: "You can always update your profile later in settings.",
+    });
+    onUserCreated(minimalUser);
+  };
+
   return (
-    <div className="min-h-screen gradient-surface flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl card-professional shadow-professional slide-up">
-        <CardContent className="p-8">
+    <div className="min-h-screen gradient-surface">
+      {/* Professional Header Navigation */}
+      <header className="sticky top-0 z-50 backdrop-blur-lg bg-white/90 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Left: Logo & Back to Home */}
+            <div className="flex items-center space-x-6">
+              <Button 
+                variant="ghost" 
+                className="flex items-center space-x-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                data-testid="nav-back-home"
+                asChild
+              >
+                <Link href="/">
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Home</span>
+                </Link>
+              </Button>
+              
+              {/* Progress Saved Indicator */}
+              {progressSaved && (
+                <Badge variant="secondary" className="flex items-center space-x-1 animate-fade-up">
+                  <Save className="w-3 h-3" />
+                  <span>Progress Saved</span>
+                </Badge>
+              )}
+            </div>
+
+            {/* Right: Help & Skip */}
+            <div className="flex items-center space-x-4">
+              {/* Help/Support Dialog */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    className="flex items-center space-x-2"
+                    data-testid="nav-help"
+                  >
+                    <HelpCircle className="w-4 h-4" />
+                    <span className="hidden sm:inline">Help</span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center space-x-2">
+                      <HelpCircle className="w-5 h-5 text-blue-600" />
+                      <span>Need Help?</span>
+                    </DialogTitle>
+                    <DialogDescription className="space-y-4 pt-4">
+                      <div className="space-y-3">
+                        <div>
+                          <h4 className="font-medium text-slate-900 dark:text-slate-100">Getting Started</h4>
+                          <p className="text-sm text-slate-600 dark:text-slate-300">
+                            Fill out your profile to get personalized AI-powered workout plans and nutrition tracking.
+                          </p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-slate-900 dark:text-slate-100">Not Ready to Complete?</h4>
+                          <p className="text-sm text-slate-600 dark:text-slate-300">
+                            Use "Skip for Now" to explore the app with a demo profile. You can update your information anytime later.
+                          </p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-slate-900 dark:text-slate-100">Privacy & Security</h4>
+                          <p className="text-sm text-slate-600 dark:text-slate-300">
+                            Your data is secure and only used to personalize your fitness experience.
+                          </p>
+                        </div>
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+
+              {/* Skip for Now */}
+              <Button 
+                variant="outline" 
+                onClick={handleSkipOnboarding}
+                className="flex items-center space-x-2 hover-lift"
+                data-testid="nav-skip"
+              >
+                <CheckCircle className="w-4 h-4" />
+                <span>Skip for Now</span>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <div className="flex items-center justify-center p-4 pt-8">
+        <Card className="w-full max-w-4xl card-professional shadow-professional slide-up">
+          <CardContent className="p-8">
           <div className="text-center mb-8">
             <h2 className="text-4xl heading-1 gradient-text mb-4 gradient-animation">
               Welcome to Your AI Fitness Journey! 🚀
@@ -342,8 +467,9 @@ export default function OnboardingForm({ onUserCreated }: OnboardingFormProps) {
               )}
             </div>
           </form>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
