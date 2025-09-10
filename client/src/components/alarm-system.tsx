@@ -178,7 +178,7 @@ export default function AlarmSystem({ user }: AlarmSystemProps) {
                 {dayLabels.map((day, index) => (
                   <label key={day} className="flex items-center space-x-1 cursor-pointer">
                     <Checkbox
-                      checked={form.watch("days")?.includes(day)}
+                      checked={form.watch("days")?.includes(day) ?? false}
                       onCheckedChange={(checked) => {
                         const currentDays: string[] = form.getValues("days") || [];
                         if (checked) {
