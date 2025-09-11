@@ -153,7 +153,7 @@ export default function LandingPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center shadow-lg">
-                <Dumbbell className="text-white w-5 h-5" />
+                <Dumbbell className="text-primary-foreground w-5 h-5" />
               </div>
               <h1 className="text-2xl font-bold gradient-text-primary">
                 FitGenius
@@ -194,7 +194,7 @@ export default function LandingPage() {
           </AnimatedSection>
           
           <AnimatedSection delay={200}>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 dark:text-slate-100 mb-6 leading-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
               Your Personal
               <span className="block gradient-text-primary">
                 AI Fitness Coach
@@ -239,7 +239,7 @@ export default function LandingPage() {
               className="mt-16 animate-bounce cursor-pointer hover:text-purple-600 transition-colors"
               data-testid="scroll-indicator"
             >
-              <ChevronDown className="w-8 h-8 mx-auto text-slate-400" />
+              <ChevronDown className="w-8 h-8 mx-auto text-muted-foreground" />
             </button>
           </AnimatedSection>
         </div>
@@ -288,10 +288,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                 See FitGenius in Action
               </h2>
-              <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                 Get a preview of the powerful features that will transform your fitness routine.
               </p>
             </div>
@@ -327,13 +327,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                 Loved by Fitness Enthusiasts
               </h2>
               <div className="flex items-center justify-center space-x-6 mb-8">
                 <div className="flex items-center space-x-2">
                   <Users className="w-6 h-6 text-purple-600" />
-                  <span className="text-lg font-semibold text-slate-900 dark:text-slate-100">1000+ Active Users</span>
+                  <span className="text-lg font-semibold text-foreground">1000+ Active Users</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="flex space-x-1">
@@ -341,7 +341,7 @@ export default function LandingPage() {
                       <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <span className="text-lg font-semibold text-slate-900 dark:text-slate-100">4.9/5 Rating</span>
+                  <span className="text-lg font-semibold text-foreground">4.9/5 Rating</span>
                 </div>
               </div>
             </div>
@@ -357,12 +357,12 @@ export default function LandingPage() {
                         <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                       ))}
                     </div>
-                    <p className="text-slate-600 dark:text-slate-300 mb-4 italic">
+                    <p className="text-muted-foreground mb-4 italic">
                       "{testimonial.content}"
                     </p>
                     <div>
-                      <p className="font-semibold text-slate-900 dark:text-slate-100">{testimonial.name}</p>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">{testimonial.role}</p>
+                      <p className="font-semibold text-foreground">{testimonial.name}</p>
+                      <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -409,7 +409,7 @@ export default function LandingPage() {
               </div>
               <span className="text-xl font-bold">FitGenius</span>
             </div>
-            <div className="text-slate-400 text-sm">
+            <div className="text-muted-foreground text-sm">
               © 2024 FitGenius. Transforming fitness with AI.
             </div>
           </div>

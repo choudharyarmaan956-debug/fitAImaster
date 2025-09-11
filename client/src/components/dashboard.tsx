@@ -121,7 +121,7 @@ export default function Dashboard({ user }: DashboardProps) {
     <div className="relative min-h-screen overflow-hidden">
       {/* Dynamic Animated Background */}
       <div className={getBackgroundClasses()}>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent gradient-animation"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/10 to-transparent gradient-animation"></div>
       </div>
 
       {/* Daily Check-in Component */}
@@ -153,10 +153,10 @@ export default function Dashboard({ user }: DashboardProps) {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="text-6xl animate-bounce">🎉</div>
             <div className="absolute inset-0 animate-ping">
-              <div className="w-4 h-4 bg-yellow-400 rounded-full absolute top-0 left-0"></div>
-              <div className="w-3 h-3 bg-pink-400 rounded-full absolute top-4 right-2"></div>
-              <div className="w-5 h-5 bg-blue-400 rounded-full absolute bottom-2 left-3"></div>
-              <div className="w-2 h-2 bg-green-400 rounded-full absolute bottom-0 right-0"></div>
+              <div className="w-4 h-4 bg-accent rounded-full absolute top-0 left-0"></div>
+              <div className="w-3 h-3 bg-secondary rounded-full absolute top-4 right-2"></div>
+              <div className="w-5 h-5 bg-primary rounded-full absolute bottom-2 left-3"></div>
+              <div className="w-2 h-2 bg-accent rounded-full absolute bottom-0 right-0"></div>
             </div>
           </div>
         </div>

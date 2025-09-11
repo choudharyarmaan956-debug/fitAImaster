@@ -239,6 +239,11 @@
   .landing-section-bg { background: var(--landing-section-bg); }
   .landing-section-alt { background: var(--landing-section-alt); }
   
+  /* Dashboard Time-based Backgrounds */
+  .nutrition-morning { background: linear-gradient(135deg, var(--feature-orange) 0%, var(--accent) 25%, var(--feature-orange) 50%, var(--accent) 100%); }
+  .workouts-afternoon { background: linear-gradient(135deg, var(--primary) 0%, var(--feature-blue) 25%, var(--feature-purple) 50%, var(--primary) 100%); }
+  .progress-evening { background: linear-gradient(135deg, var(--feature-purple) 0%, var(--primary) 25%, var(--feature-blue) 50%, var(--feature-purple) 100%); }
+  
   /* Glass Morphism */
   .glass {
     background: var(--glass-bg);

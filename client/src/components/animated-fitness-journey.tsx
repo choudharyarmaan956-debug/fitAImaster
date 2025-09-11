@@ -4,7 +4,7 @@ export default function AnimatedFitnessJourney() {
   return (
     <div className="absolute inset-0 overflow-hidden">
       {/* Base gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 animate-gradient-shift"></div>
+      <div className="absolute inset-0 feature-gradient-purple opacity-20 animate-gradient-shift"></div>
       
       {/* Animated SVG Journey Paths */}
       <svg 
@@ -64,7 +64,7 @@ export default function AnimatedFitnessJourney() {
 
         {/* Animated Journey Dots */}
         {/* Fast Moving Dots */}
-        <circle r="4" fill="rgba(147, 51, 234, 0.8)" className="drop-shadow-md">
+        <circle r="4" fill="var(--svg-glow-start)" className="drop-shadow-md">
           <animateMotion
             dur="12s"
             repeatCount="indefinite"
@@ -78,7 +78,7 @@ export default function AnimatedFitnessJourney() {
           />
         </circle>
 
-        <circle r="3" fill="rgba(219, 39, 119, 0.8)" className="drop-shadow-md">
+        <circle r="3" fill="var(--svg-glow-middle)" className="drop-shadow-md">
           <animateMotion
             dur="15s"
             repeatCount="indefinite"
@@ -94,7 +94,7 @@ export default function AnimatedFitnessJourney() {
           />
         </circle>
 
-        <circle r="5" fill="rgba(245, 158, 11, 0.8)" className="drop-shadow-md">
+        <circle r="5" fill="var(--svg-glow-end)" className="drop-shadow-md">
           <animateMotion
             dur="10s"
             repeatCount="indefinite"
@@ -111,7 +111,7 @@ export default function AnimatedFitnessJourney() {
         </circle>
 
         {/* Slower Moving Dots */}
-        <circle r="3" fill="rgba(147, 51, 234, 0.6)" className="drop-shadow-sm">
+        <circle r="3" fill="var(--svg-path-start)" className="drop-shadow-sm">
           <animateMotion
             dur="20s"
             repeatCount="indefinite"
