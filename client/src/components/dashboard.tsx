@@ -104,16 +104,16 @@ export default function Dashboard({ user }: DashboardProps) {
   }, [calorieProgress, latestProgress?.workoutsCompleted]);
 
   const getBackgroundClasses = () => {
-    const baseClasses = "fixed inset-0 transition-all duration-1000 ease-in-out opacity-30";
+    const baseClasses = "fixed inset-0 transition-all duration-1000 ease-in-out opacity-20";
     switch (backgroundTheme) {
       case 'morning':
-        return `${baseClasses} bg-gradient-to-br from-orange-200 via-yellow-200 to-pink-200 dark:from-orange-900/30 dark:via-yellow-900/30 dark:to-pink-900/30`;
+        return `${baseClasses} nutrition-morning dark:nutrition-morning`;
       case 'afternoon':
-        return `${baseClasses} bg-gradient-to-br from-blue-200 via-purple-200 to-red-200 dark:from-blue-900/30 dark:via-purple-900/30 dark:to-red-900/30`;
+        return `${baseClasses} workouts-afternoon dark:workouts-afternoon`;
       case 'evening':
-        return `${baseClasses} bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30`;
+        return `${baseClasses} progress-evening dark:progress-evening`;
       default:
-        return `${baseClasses} bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-800/30 dark:to-slate-900/30`;
+        return `${baseClasses} gradient-surface`;
     }
   };
 

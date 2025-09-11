@@ -82,46 +82,62 @@
   --shadow-lg: 0 10px 25px 0 rgba(0, 0, 0, 0.12);
   --shadow-xl: 0 25px 50px 0 rgba(0, 0, 0, 0.15);
   --shadow-glow: 0 0 20px 0 rgba(59, 130, 246, 0.15);
+  
+  /* Theme-aware SVG gradients */
+  --svg-path-start: rgba(147, 51, 234, 0.3);
+  --svg-path-middle: rgba(219, 39, 119, 0.3);
+  --svg-path-end: rgba(245, 158, 11, 0.3);
+  --svg-glow-start: rgba(147, 51, 234, 0.6);
+  --svg-glow-middle: rgba(219, 39, 119, 0.6);
+  --svg-glow-end: rgba(245, 158, 11, 0.6);
 }
 
 .dark {
-  --background: hsl(220, 25%, 8%);
-  --foreground: hsl(220, 15%, 95%);
-  --card: hsl(220, 20%, 12%);
-  --card-foreground: hsl(220, 15%, 95%);
-  --popover: hsl(220, 20%, 12%);
-  --popover-foreground: hsl(220, 15%, 95%);
-  --primary: hsl(230, 85%, 65%);
-  --primary-foreground: hsl(220, 25%, 8%);
-  --secondary: hsl(160, 70%, 58%);
-  --secondary-foreground: hsl(220, 25%, 8%);
-  --muted: hsl(220, 20%, 16%);
-  --muted-foreground: hsl(220, 15%, 65%);
-  --accent: hsl(45, 95%, 60%);
-  --accent-foreground: hsl(220, 25%, 8%);
-  --destructive: hsl(0, 84%, 65%);
-  --destructive-foreground: hsl(220, 15%, 95%);
-  --border: hsl(220, 20%, 20%);
-  --input: hsl(220, 20%, 16%);
-  --ring: hsl(230, 85%, 65%);
+  --background: hsl(220, 30%, 6%);
+  --foreground: hsl(220, 20%, 98%);
+  --card: hsl(220, 25%, 10%);
+  --card-foreground: hsl(220, 20%, 98%);
+  --popover: hsl(220, 25%, 10%);
+  --popover-foreground: hsl(220, 20%, 98%);
+  --primary: hsl(230, 90%, 70%);
+  --primary-foreground: hsl(220, 30%, 6%);
+  --secondary: hsl(160, 75%, 62%);
+  --secondary-foreground: hsl(220, 30%, 6%);
+  --muted: hsl(220, 25%, 14%);
+  --muted-foreground: hsl(220, 20%, 75%);
+  --accent: hsl(45, 100%, 65%);
+  --accent-foreground: hsl(220, 30%, 6%);
+  --destructive: hsl(0, 90%, 70%);
+  --destructive-foreground: hsl(220, 20%, 98%);
+  --border: hsl(220, 25%, 22%);
+  --input: hsl(220, 25%, 14%);
+  --ring: hsl(230, 90%, 70%);
   
-  /* Dark mode gradients */
-  --gradient-primary: linear-gradient(135deg, hsl(230, 85%, 65%) 0%, hsl(200, 80%, 62%) 100%);
-  --gradient-secondary: linear-gradient(135deg, hsl(160, 70%, 58%) 0%, hsl(140, 65%, 55%) 100%);
-  --gradient-accent: linear-gradient(135deg, hsl(45, 95%, 60%) 0%, hsl(35, 90%, 55%) 100%);
-  --gradient-surface: linear-gradient(135deg, hsl(220, 25%, 8%) 0%, hsl(220, 20%, 12%) 100%);
-  --gradient-hero: linear-gradient(135deg, hsl(230, 85%, 65%) 0%, hsl(280, 70%, 70%) 50%, hsl(160, 70%, 58%) 100%);
+  /* Dark mode gradients - Enhanced contrast */
+  --gradient-primary: linear-gradient(135deg, hsl(230, 90%, 70%) 0%, hsl(200, 85%, 67%) 100%);
+  --gradient-secondary: linear-gradient(135deg, hsl(160, 75%, 62%) 0%, hsl(140, 70%, 58%) 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(45, 100%, 65%) 0%, hsl(35, 95%, 60%) 100%);
+  --gradient-surface: linear-gradient(135deg, hsl(220, 30%, 6%) 0%, hsl(220, 25%, 10%) 100%);
+  --gradient-hero: linear-gradient(135deg, hsl(230, 90%, 70%) 0%, hsl(280, 75%, 75%) 50%, hsl(160, 75%, 62%) 100%);
   
-  /* Dark mode glass morphism */
-  --glass-bg: rgba(15, 23, 42, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  /* Dark mode glass morphism - Enhanced visibility */
+  --glass-bg: rgba(8, 15, 28, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.15);
   
-  /* Dark mode shadows */
-  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 25px 50px 0 rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px 0 rgba(99, 102, 241, 0.3);
+  /* Dark mode shadows - Enhanced depth */
+  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 25px 0 rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 25px 50px 0 rgba(0, 0, 0, 0.75);
+  --shadow-glow: 0 0 20px 0 rgba(99, 102, 241, 0.4);
+  
+  /* Theme-aware SVG gradients - Dark mode */
+  --svg-path-start: rgba(168, 85, 247, 0.4);
+  --svg-path-middle: rgba(236, 72, 153, 0.4);
+  --svg-path-end: rgba(251, 191, 36, 0.4);
+  --svg-glow-start: rgba(168, 85, 247, 0.7);
+  --svg-glow-middle: rgba(236, 72, 153, 0.7);
+  --svg-glow-end: rgba(251, 191, 36, 0.7);
 }
 
 @layer base {

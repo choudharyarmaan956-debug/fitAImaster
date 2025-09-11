@@ -6,6 +6,7 @@ import NutritionTracker from "../components/nutrition-tracker";
 import AlarmSystem from "../components/alarm-system";
 import ProgressTracker from "../components/progress-tracker";
 import NotificationModal from "../components/notification-modal";
+import { ThemeToggle } from "../components/theme-toggle";
 import { useNotifications } from "../hooks/use-notifications";
 import { Dumbbell, Bell } from "lucide-react";
 
@@ -72,6 +73,7 @@ export default function Home() {
               >
                 <Bell className="text-foreground w-5 h-5" />
               </button>
+              <ThemeToggle />
               <div className="w-8 h-8 gradient-bg rounded-full shadow-glow hover-scale"></div>
             </div>
           </div>

@@ -18,6 +18,7 @@ import {
   Zap
 } from "lucide-react";
 import AnimatedFitnessJourney from "@/components/animated-fitness-journey";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 function useInView(threshold = 0.1) {
   const [ref, setRef] = useState<HTMLElement | null>(null);
@@ -167,6 +168,7 @@ export default function LandingPage() {
               >
                 Explore Features
               </Button>
+              <ThemeToggle />
               <Link href="/app">
                 <Button 
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"

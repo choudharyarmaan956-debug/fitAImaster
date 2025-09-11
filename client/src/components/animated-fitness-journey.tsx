@@ -15,15 +15,15 @@ export default function AnimatedFitnessJourney() {
         {/* Main Journey Path */}
         <defs>
           <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(147, 51, 234, 0.3)" />
-            <stop offset="50%" stopColor="rgba(219, 39, 119, 0.3)" />
-            <stop offset="100%" stopColor="rgba(245, 158, 11, 0.3)" />
+            <stop offset="0%" stopColor="var(--svg-path-start)" />
+            <stop offset="50%" stopColor="var(--svg-path-middle)" />
+            <stop offset="100%" stopColor="var(--svg-path-end)" />
           </linearGradient>
           
           <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(147, 51, 234, 0.6)" />
-            <stop offset="50%" stopColor="rgba(219, 39, 119, 0.6)" />
-            <stop offset="100%" stopColor="rgba(245, 158, 11, 0.6)" />
+            <stop offset="0%" stopColor="var(--svg-glow-start)" />
+            <stop offset="50%" stopColor="var(--svg-glow-middle)" />
+            <stop offset="100%" stopColor="var(--svg-glow-end)" />
           </linearGradient>
         </defs>
 
