@@ -90,6 +90,24 @@
   --svg-glow-start: rgba(147, 51, 234, 0.6);
   --svg-glow-middle: rgba(219, 39, 119, 0.6);
   --svg-glow-end: rgba(245, 158, 11, 0.6);
+  
+  /* Feature gradient colors */
+  --feature-purple: hsl(270, 85%, 60%);
+  --feature-pink: hsl(330, 85%, 60%);
+  --feature-green: hsl(150, 80%, 50%);
+  --feature-emerald: hsl(160, 84%, 39%);
+  --feature-blue: hsl(210, 100%, 56%);
+  --feature-cyan: hsl(190, 95%, 50%);
+  --feature-orange: hsl(25, 95%, 53%);
+  --feature-red: hsl(0, 84%, 60%);
+  
+  /* Landing page surfaces */
+  --landing-bg-start: hsl(210, 20%, 98%);
+  --landing-bg-middle: hsl(0, 0%, 100%);
+  --landing-bg-end: hsl(210, 17%, 94%);
+  --landing-header-bg: rgba(255, 255, 255, 0.8);
+  --landing-section-bg: hsl(0, 0%, 100%);
+  --landing-section-alt: hsl(210, 20%, 98%);
 }
 
 .dark {
@@ -138,6 +156,24 @@
   --svg-glow-start: rgba(168, 85, 247, 0.7);
   --svg-glow-middle: rgba(236, 72, 153, 0.7);
   --svg-glow-end: rgba(251, 191, 36, 0.7);
+  
+  /* Feature gradient colors - Dark mode enhanced */
+  --feature-purple: hsl(270, 90%, 70%);
+  --feature-pink: hsl(330, 90%, 70%);
+  --feature-green: hsl(150, 85%, 55%);
+  --feature-emerald: hsl(160, 89%, 45%);
+  --feature-blue: hsl(210, 100%, 65%);
+  --feature-cyan: hsl(190, 100%, 60%);
+  --feature-orange: hsl(25, 100%, 65%);
+  --feature-red: hsl(0, 90%, 70%);
+  
+  /* Landing page surfaces - Dark mode */
+  --landing-bg-start: hsl(220, 25%, 8%);
+  --landing-bg-middle: hsl(220, 20%, 12%);
+  --landing-bg-end: hsl(220, 30%, 6%);
+  --landing-header-bg: rgba(8, 15, 28, 0.8);
+  --landing-section-bg: hsl(220, 20%, 12%);
+  --landing-section-alt: hsl(220, 25%, 8%);
 }
 
 @layer base {
@@ -190,6 +226,18 @@
     background-clip: text;
     font-weight: 600;
   }
+  
+  /* Feature Gradient Utilities */
+  .feature-gradient-purple { background: linear-gradient(135deg, var(--feature-purple), var(--feature-pink)); }
+  .feature-gradient-green { background: linear-gradient(135deg, var(--feature-green), var(--feature-emerald)); }
+  .feature-gradient-blue { background: linear-gradient(135deg, var(--feature-blue), var(--feature-cyan)); }
+  .feature-gradient-orange { background: linear-gradient(135deg, var(--feature-orange), var(--feature-red)); }
+  
+  /* Landing Page Surfaces */
+  .landing-bg { background: linear-gradient(135deg, var(--landing-bg-start) 0%, var(--landing-bg-middle) 50%, var(--landing-bg-end) 100%); }
+  .landing-header-bg { background: var(--landing-header-bg); }
+  .landing-section-bg { background: var(--landing-section-bg); }
+  .landing-section-alt { background: var(--landing-section-alt); }
   
   /* Glass Morphism */
   .glass {
