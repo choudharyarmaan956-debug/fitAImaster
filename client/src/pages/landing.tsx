@@ -17,6 +17,7 @@ import {
   CheckCircle,
   Zap
 } from "lucide-react";
+import AnimatedFitnessJourney from "@/components/animated-fitness-journey";
 
 function useInView(threshold = 0.1) {
   const [ref, setRef] = useState<HTMLElement | null>(null);
@@ -181,7 +182,7 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 lg:py-32">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 animate-gradient-shift"></div>
+        <AnimatedFitnessJourney />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <AnimatedSection>
             <Badge variant="secondary" className="mb-6 px-4 py-2 text-sm font-medium">
